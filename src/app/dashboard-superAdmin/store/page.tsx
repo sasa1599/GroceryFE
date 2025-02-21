@@ -101,7 +101,7 @@ export default function StoreDashboard() {
         isSidebarOpen={isSidebarOpen}
         setIsSidebarOpen={setIsSidebarOpen}
       />
-      <div className="p-8 ml-[5rem]">
+      <div className="p-8 ml-[20rem]">
         <div className="max-w-7xl mx-auto">
           <header className="mb-8">
             <div className="flex justify-between items-center mb-6">
@@ -120,7 +120,7 @@ export default function StoreDashboard() {
             </div>
           </header>
 
-          <StoreList stores={stores} onDeleteStore={handleDeleteStore} />
+          <StoreList stores={stores} onDeleteStore={handleDeleteStore} handleSuccess={handleSuccess} />
 
           <AddStoreModal
             isOpen={isModalOpen}

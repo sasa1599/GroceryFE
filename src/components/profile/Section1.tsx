@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import ProfileServices from "@/services/profile/services1";
 import Image from "next/image";
 import React, { useState } from "react";
@@ -19,13 +19,14 @@ const Section1 = () => {
     setPasswordHandle,
     isSaveAvatar,
   } = ProfileServices();
-  const [modalSetPass, setModalSetPass] = useState(false)
-  
+  const [modalSetPass, setModalSetPass] = useState(false);
+  const [modalEnterRefCode, setModalEnterRefCode] = useState(false);
+
   const handleLogout = () => {
     if (localStorage.getItem("token")) {
       localStorage.removeItem("token");
       localStorage.removeItem("exp_token");
-      signOut({ callbackUrl: "/" }); 
+      signOut({ callbackUrl: "/" });
     }
   };
   return (
@@ -55,8 +56,12 @@ const Section1 = () => {
           )}
         </div>
         <div>
-          <h1 className="text-2xl text-white font-bold">{profile.firstName} {profile.lastName || ""}</h1>
-          <p className="text-gray-600">Referral Code: {profile.referral_code}</p>
+          <h1 className="text-2xl text-white font-bold">
+            {profile.firstName} {profile.lastName || ""}
+          </h1>
+          <p className="text-gray-600">
+            Referral Code: {profile.referral_code}
+          </p>
         </div>
       </div>
       <div className="flex gap-3">
@@ -178,6 +183,18 @@ const Section1 = () => {
         </div>
       </div>
       {/* modal set password */}
+      {profile && profile.password === "" ? (
+        <Modal
+          isOpen={modalSetPass}
+          onClose={() => setModalSetPass(false)}
+          title="Set Password"
+        >
+          <FormSetPassword onsubmit={setPasswordHandle} />
+        </Modal>
+      ) : (
+        ""
+      )}
+      {/* modal input referral */}
       {profile && profile.password === "" ? (
         <Modal
           isOpen={modalSetPass}

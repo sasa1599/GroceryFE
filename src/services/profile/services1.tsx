@@ -25,6 +25,7 @@ const ProfileServices = () => {
     referral_code: "",
     is_google: false,
   });
+  const [refCode, setRefCode] = useState()
 
   const [isSaveAvatar, setIsSaveAvatar] = useState(false);
   const [isChangeAvatar, setIsChangeAvatar] = useState(false);
@@ -35,6 +36,34 @@ const ProfileServices = () => {
   }, []);
 
   const getDataUser = async () => {
+    try {
+      const res = await fetch(`${base_url_be}/customer/profile`, {
+        headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+      });
+      if (res.ok) {
+        const { data } = await res.json();
+        setProfile((prev) => ({
+          ...prev,
+          avatar: data.avatar || defaultAvatar,
+          username: data.username ?? "",
+          password: data.password ?? "",
+          userId: data.user_id,
+          firstName: data.first_name ?? "",
+          lastName: data.last_name ?? "",
+          email: data.email ?? "",
+          phone: data.phone ?? "",
+          role: data.role,
+          status: data.verified ? "Aktif" : "Tidak Aktif",
+          referral_code: data.referral_code,
+          is_google: data.is_google,
+        }));
+      }
+    } catch {
+      showToast("Failed to get user data.", "error");
+    }
+  };
+
+  const getDataReferral = async () => {
     try {
       const res = await fetch(`${base_url_be}/customer/profile`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },

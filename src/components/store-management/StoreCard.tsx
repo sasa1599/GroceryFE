@@ -2,17 +2,20 @@ import { PencilIcon, Trash2 } from "lucide-react";
 import { StoreData } from "@/types/store-types";
 import { useState } from "react";
 import EditStoreModal from "./EditStoreModal";
+import { User } from "@/types/user-types";
 
 interface StoreCardProps {
   store: StoreData;
   onDelete: (storeId: number) => void;
   handleSuccess: () => void;
+  users: User[];
 }
 
 export default function StoreCard({
   store,
   onDelete,
   handleSuccess,
+  users,
 }: StoreCardProps) {
   const [modal, setModal] = useState<boolean>(false);
   const handleDelete = () => {
@@ -32,7 +35,9 @@ export default function StoreCard({
         </div>
         <div className="flex gap-2">
           <button
-            onClick={()=>{setModal(true)}}
+            onClick={() => {
+              setModal(true);
+            }}
             className="text-green-600 hover:text-green-700 p-1"
             title="Edit Store"
           >
@@ -52,6 +57,7 @@ export default function StoreCard({
         onClose={() => setModal(false)}
         dataStore={store}
         onSuccess={handleSuccess}
+        users={users}
       />
     </div>
   );

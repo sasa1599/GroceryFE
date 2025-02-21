@@ -3,7 +3,11 @@
 import React, { useEffect, useState } from "react";
 import { MapPin, Building2, Save } from "lucide-react";
 import { InputField } from "@/components/store-management/StoreInputFields";
-import { StoreData, FormErrorsWithIndex, StoreDataV2 } from "@/types/store-types";
+import {
+  StoreData,
+  FormErrorsWithIndex,
+  StoreDataV2,
+} from "@/types/store-types";
 import {
   MapContainer,
   TileLayer,
@@ -13,6 +17,8 @@ import {
 } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { User } from "@/types/user-types";
+import { SelectField } from "./StoreSelectFields";
 
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "/marker-icon-2x.png",
@@ -23,11 +29,12 @@ L.Icon.Default.mergeOptions({
 interface EditStoreFormProps {
   formData: StoreData;
   errors: FormErrorsWithIndex;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleChange: (e: React.ChangeEvent<any>) => void;
   setFormData: React.Dispatch<React.SetStateAction<StoreData>>;
   handleSubmit: (e: React.FormEvent) => Promise<void>;
   isSubmitting: boolean;
-  dataStore: StoreDataV2
+  dataStore: StoreDataV2;
+  users: User[];
 }
 function MapClickHandler({
   setFormData,
@@ -54,10 +61,14 @@ export default function EditStoreForm({
   setFormData,
   handleSubmit,
   isSubmitting,
-  dataStore
+  dataStore,
+  users,
 }: EditStoreFormProps) {
   // State untuk menyimpan posisi marker
-  const [markerPosition, setMarkerPosition] = useState([formData.latitude || -6.19676128457438, formData.longitude || 106.83754574840799]);
+  const [markerPosition, setMarkerPosition] = useState([
+    formData.latitude || -6.19676128457438,
+    formData.longitude || 106.83754574840799,
+  ]);
   const handleNumberChange =
     (fieldName: "latitude" | "longitude") =>
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,12 +78,15 @@ export default function EditStoreForm({
         [fieldName]: value ? parseFloat(value) : undefined,
       }));
     };
-    // Efek untuk mengatur default values saat formData berubah
-      useEffect(() => {
-        if (formData) {
-          setMarkerPosition([formData.latitude || -6.19676128457438, formData.longitude || 106.83754574840799]);
-        }
-      }, [formData]);
+  // Efek untuk mengatur default values saat formData berubah
+  useEffect(() => {
+    if (formData) {
+      setMarkerPosition([
+        formData.latitude || -6.19676128457438,
+        formData.longitude || 106.83754574840799,
+      ]);
+    }
+  }, [formData]);
 
   return (
     <form
@@ -159,6 +173,21 @@ export default function EditStoreForm({
           value={formData.longitude}
           error={errors.longitude}
           onChange={handleNumberChange("longitude")}
+        />
+      </div>
+
+      <div className="grid grid-cols-2">
+        <SelectField
+          name="user_id"
+          label="Store Admin"
+          Icon={MapPin}
+          value={formData.user_id}
+          error={errors.user_id}
+          onChange={handleChange}
+          options={users?.map((v: User) => ({
+            value: v.user_id,
+            label: v.first_name,
+          }))}
         />
       </div>
 

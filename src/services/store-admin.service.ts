@@ -43,6 +43,7 @@ export const storeService = {
         latitude: formData.latitude,
         longitude: formData.longitude,
         description: formData.description,
+        user_id: formData.user_id
       };
 
       const response = await fetch(`${BASE_URL}/store`, {
@@ -83,6 +84,7 @@ export const storeService = {
         latitude: formData.latitude,
         longitude: formData.longitude,
         description: formData.description,
+        user_id: formData.user_id
       };
 
       const response = await fetch(`${BASE_URL}/store?store_id=${formData?.store_id}`, {

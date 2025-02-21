@@ -9,21 +9,12 @@ import LoginUser from "@/components/login/loginUser";
 import React, { useEffect } from "react";
 import { signIn } from "next-auth/react";
 import { motion } from "framer-motion";
-import {
-  Sparkles,
-  ShieldCheck,
-  Laptop,
-  Store,
-  Headphones,
-} from "lucide-react";
+import { Sparkles, ShieldCheck, Laptop, Store, Headphones } from "lucide-react";
 
 export default function StoreLoginPage() {
   const router = useRouter();
   useEffect(() => {
-    if (
-      !localStorage.getItem("verify_email") &&
-      localStorage.getItem("is_login")
-    ) {
+    if (localStorage.getItem("token")) {
       router.push("/");
     }
   }, [router]);

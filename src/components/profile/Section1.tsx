@@ -22,11 +22,9 @@ const Section1 = () => {
   const [modalSetPass, setModalSetPass] = useState(false)
   
   const handleLogout = () => {
-    if (localStorage.getItem("is_login") && localStorage.getItem("token")) {
-      localStorage.removeItem("is_login");
+    if (localStorage.getItem("token")) {
       localStorage.removeItem("token");
       localStorage.removeItem("exp_token");
-      localStorage.removeItem("user_id")
       signOut({ callbackUrl: "/" }); 
     }
   };
@@ -57,7 +55,7 @@ const Section1 = () => {
           )}
         </div>
         <div>
-          <h1 className="text-2xl text-white font-bold">{profile.username}</h1>
+          <h1 className="text-2xl text-white font-bold">{profile.firstName} {profile.lastName || ""}</h1>
           <p className="text-gray-600">ID: {profile.userId}</p>
         </div>
       </div>

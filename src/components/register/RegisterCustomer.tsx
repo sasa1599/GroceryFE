@@ -8,9 +8,12 @@ import {
   RegisterFormCustomerValues,
 } from "@/types/auth-types";
 import { registerSchema } from "@/helper/validation-schema-register";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const RegisterCustomer: React.FC<RegisterFormCustomerProps> = ({
   onSubmit,
+  handleGoogleRegister
 }) => {
   const [serverError, setServerError] = useState("");
 
@@ -116,6 +119,34 @@ const RegisterCustomer: React.FC<RegisterFormCustomerProps> = ({
             </Form>
           )}
         </Formik>
+
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+          className="mt-6"
+        >
+          <div className="relative">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-600/20"></div>
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-transparent text-gray-600">
+                Or continue with
+              </span>
+            </div>
+          </div>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={handleGoogleRegister}
+            className="mt-4 w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-600/20 rounded-lg bg-white/5 hover:bg-white/10 transition-colors duration-200"
+          >
+            <Image src="/google.png" alt="Google" width={20} height={20} />
+            <span className="text-black">Sign up with Google</span>
+          </motion.button>
+        </motion.div>
 
         {/* Security Notice */}
         <div className="text-xs text-gray-500 text-center mt-4">

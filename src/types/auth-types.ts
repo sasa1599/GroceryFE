@@ -94,6 +94,7 @@ export interface LoginFormSuperValues {
 // Props interfaces
 export interface RegisterFormCustomerProps {
   onSubmit: (values: RegisterFormCustomerValues) => Promise<void>;
+  handleGoogleRegister: () => void;
 }
 
 export interface ResetPassProps {

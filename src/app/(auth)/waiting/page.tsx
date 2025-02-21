@@ -29,7 +29,6 @@ const Page = () => {
             }, 2000);
         };
     
-        console.log("Session:", session);
         // Kirim data user ke backend untuk validasi
         const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL_BE}/auth/google`, {
             method: "POST",
@@ -42,8 +41,7 @@ const Page = () => {
         });
 
         const data = await response.json();
-        if (data.token) {
-            localStorage.setItem("is_login", "true");
+        if (data.token || !data.email) {
             localStorage.setItem("exp_token", "24 Hours");
             localStorage.setItem("token", data.token);
             window.location.href = "/"

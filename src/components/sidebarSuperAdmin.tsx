@@ -46,17 +46,17 @@ export default function Sidebar({
       icon: <LayoutDashboard className="h-5 w-5" />,
       href: profile?.role == "super_admin" ? "/dashboard-superAdmin" : "/dashboard-storeAdmin",
     },
-    profile?.role == "super_admin" && {
+    {
       title: "My Store",
       icon: <StoreIcon className="h-5 w-5" />,
       href: "/dashboard-superAdmin/store",
     },
-    profile?.role == "super_admin" && {
+    {
       title: "User Management",
       icon: <Users className="h-5 w-5" />,
       href: "/dashboard-superAdmin/user",
     },
-    profile?.role == "super_admin" && {
+    {
       title: "Categories",
       icon: <FolderKanban className="h-5 w-5" />,
       href: "/dashboard-superAdmin/categories",
@@ -66,7 +66,7 @@ export default function Sidebar({
       icon: <Boxes className="h-5 w-5" />,
       href: "/dashboard-superAdmin/product",
     },
-    profile?.role == "super_admin" && {
+    {
       title: "Inventory",
       icon: <PackageOpen className="h-5 w-5" />,
       href: "/dashboard-superAdmin/inventory",

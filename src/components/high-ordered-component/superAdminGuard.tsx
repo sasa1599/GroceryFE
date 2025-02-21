@@ -1,5 +1,4 @@
 "use client";
-// components/guards/SuperAdminGuard.tsx
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AuthService } from "@/services/auth.service";

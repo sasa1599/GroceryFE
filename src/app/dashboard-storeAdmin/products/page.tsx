@@ -102,7 +102,7 @@ export default function ProductAdmin() {
           setIsSidebarOpen={setIsSidebarOpen}
         />
         <HeaderSuperAdmin setIsSidebarOpen={setIsSidebarOpen} setIsProfileDropdownOpen={setIsProfileDropdownOpen} isProfileDropdownOpen={isProfileDropdownOpen} />
-        <div className="p-4">
+        <div className="p-4 ml-[20rem]">
           <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6">
             <h1 className="text-2xl font-bold">Products Management</h1>
             <button

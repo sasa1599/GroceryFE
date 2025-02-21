@@ -1,10 +1,11 @@
 "use client";
 import ProfileServices from "@/services/profile/services1";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "../product-management/Modal";
 import FormSetPassword from "./FormSetPassword";
 import { signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 
 const Section1 = () => {
   const {
@@ -21,7 +22,6 @@ const Section1 = () => {
   } = ProfileServices();
   const [modalSetPass, setModalSetPass] = useState(false);
   const [modalEnterRefCode, setModalEnterRefCode] = useState(false);
-
   const handleLogout = () => {
     if (localStorage.getItem("token")) {
       localStorage.removeItem("token");

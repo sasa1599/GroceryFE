@@ -13,7 +13,7 @@ const Page = () => {
     try {
         // Tunggu hingga sesi tersedia
         const session = await getSession();
-        
+        console.log(session,'session');
         // jika sesi ga ada maka redirect ke home
         if (!session || !session.user) {
             toast.dismiss();

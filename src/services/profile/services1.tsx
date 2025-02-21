@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/helper/supabase-config";
 import { toast } from "react-toastify";
 import { ValuesSetPassAccGoogle } from "@/types/setpass-types";
+import { getSession } from "next-auth/react";
 
 const base_url_be = process.env.NEXT_PUBLIC_BASE_URL_BE;
 
@@ -25,7 +26,7 @@ const ProfileServices = () => {
     referral_code: "",
     is_google: false,
   });
-  const [refCode, setRefCode] = useState()
+  const [refCode, setRefCode] = useState();
 
   const [isSaveAvatar, setIsSaveAvatar] = useState(false);
   const [isChangeAvatar, setIsChangeAvatar] = useState(false);
@@ -93,6 +94,7 @@ const ProfileServices = () => {
 
   const saveChanges = async () => {
     try {
+      const session = await getSession();
       const res = await fetch(`${base_url_be}/customer/profile/update`, {
         method: "POST",
         headers: {
@@ -107,6 +109,12 @@ const ProfileServices = () => {
         }),
       });
       if (res.ok) {
+        // if (profile.email !== session?.user?.email) {
+        //   localStorage.setItem("verify_email", "false");
+        //   localStorage.setItem("token", "");
+        //   router.push("/verify-register");
+        //   return;
+        // }
         showToast("Profile updated successfully.", "success", () =>
           router.push("/profile")
         );
@@ -141,8 +149,16 @@ const ProfileServices = () => {
 
   const handlePickImage = (e) => {
     const file = e.target.files[0];
+    const maxSize = 1 * 1024 * 1024; // 1MB in bytes
+
     if (!file) return;
     if (!validateFileSize(file)) return;
+    // Check file size
+    if (file.size > maxSize) {
+      showToast("File size should be less than 1MB", "error");
+      setIsSaveAvatar(false);
+      return;
+    }
 
     const fileURL = URL.createObjectURL(file);
     setNewFile({ file, url: fileURL });

@@ -56,7 +56,7 @@ const Section1 = () => {
         </div>
         <div>
           <h1 className="text-2xl text-white font-bold">{profile.firstName} {profile.lastName || ""}</h1>
-          <p className="text-gray-600">ID: {profile.userId}</p>
+          <p className="text-gray-600">Referral Code: {profile.referral_code}</p>
         </div>
       </div>
       <div className="flex gap-3">
@@ -84,7 +84,7 @@ const Section1 = () => {
             onChange={(e) => handlePickImage(e)}
           />
         </button>
-        {profile && profile.password === "" ? (
+        {profile && !profile.is_google ? (
           <button
             onClick={() => setModalSetPass(true)}
             className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded mb-6"

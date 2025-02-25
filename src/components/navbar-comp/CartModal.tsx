@@ -8,20 +8,42 @@ import {
 } from "@/services/cart.service";
 import { formatRupiah } from "@/helper/currencyRp";
 import { CartModalProps, CartData } from "@/types/cart-types";
+import ProfileServices from "@/services/profile/services1";
+import { toast, ToastOptions } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 export const CartModal = ({ isOpen, onClose }: CartModalProps) => {
   const [cartData, setCartData] = useState<CartData | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [isUpdating, setIsUpdating] = useState<number | null>(null);
+  const {profile} = ProfileServices();
+  const router = useRouter();
+  const showToast = (
+    message: string,
+    type: keyof typeof toast,
+    onClose: any = null
+  ) => {
+    toast.dismiss();
+    (toast[type] as (content: string, options?: ToastOptions) => void)(
+      message,
+      {
+        position: "bottom-right",
+        autoClose: 3000,
+        theme: "colored",
+        hideProgressBar: false,
+        onClose,
+      }
+    );
+  };
 
   const loadCart = async () => {
     try {
       setIsLoading(true);
-      const userId = localStorage.getItem("user_id");
-      if (!userId) throw new Error("Please login to view your cart");
+      // const userId = localStorage.getItem("user_id");
+      // if (!userId) throw new Error("Please login to view your cart");
 
-      const response = await fetchCartId(userId);
+      const response = await fetchCartId(profile?.userId);
       setCartData(response.data);
       setError("");
     } catch (error) {
@@ -71,6 +93,7 @@ export const CartModal = ({ isOpen, onClose }: CartModalProps) => {
         });
       }
       loadCart();
+      showToast("Updated item", "success");
     } catch (error) {
       setError(
         error instanceof Error ? error.message : "Failed to update quantity"
@@ -86,6 +109,7 @@ export const CartModal = ({ isOpen, onClose }: CartModalProps) => {
       setIsUpdating(cartItemId);
       await removeFromCart(cartItemId);
       await loadCart();
+      showToast("Deleted item from cart", "success");
     } catch (error) {
       setError(
         error instanceof Error ? error.message : "Failed to remove item"
@@ -242,6 +266,7 @@ export const CartModal = ({ isOpen, onClose }: CartModalProps) => {
             <button
               className="relative w-full group disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!cartData?.items.length}
+              onClick={()=>{router.push('/checkout')}}
             >
               <div className="absolute -inset-0.5 bg-gradient-to-r from-rose-500 via-purple-500 to-blue-500 rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-300" />
               <div className="relative flex items-center justify-center gap-2 py-3 bg-neutral-900 rounded-lg">

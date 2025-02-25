@@ -9,6 +9,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import ProductCardSkeleton from "./ProductCartSkeleton";
 import { toast, ToastOptions } from "react-toastify";
 import { useRouter } from "next/navigation";
+import ProfileServices from "@/services/profile/services1";
 
 interface ProductCardProps {
   product: Product;
@@ -21,29 +22,38 @@ const ProductCard = ({ product, onCartUpdate }: ProductCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const router = useRouter();
+  const { profile } = ProfileServices();
 
   const images = product.ProductImage || [];
   const hasMultipleImages = images.length > 1;
-  const showToast = (message: string, type: keyof typeof toast, onClose: any = null) => {
-      toast.dismiss();
-      (toast[type] as (content: string, options?: ToastOptions) => void)(message, {
+  const showToast = (
+    message: string,
+    type: keyof typeof toast,
+    onClose: any = null
+  ) => {
+    toast.dismiss();
+    (toast[type] as (content: string, options?: ToastOptions) => void)(
+      message,
+      {
         position: "bottom-right",
         autoClose: 3000,
         theme: "colored",
         hideProgressBar: false,
         onClose,
-      });
-    };
+      }
+    );
+  };
 
   const handleAddToCart = async () => {
     try {
       setIsLoading(true);
-      await addToCart(product.product_id, 1);
+      await addToCart(product.product_id, 1, profile?.userId);
       onCartUpdate?.();
+      showToast("Added item to cart", "success");
     } catch (error: any) {
       console.error("Failed to add to cart:", error);
       showToast(error.message, "error");
-      router.push("/login-user-customer")
+      router.push("/login-user-customer");
     } finally {
       setIsLoading(false);
     }
@@ -88,19 +98,19 @@ const ProductCard = ({ product, onCartUpdate }: ProductCardProps) => {
         {/* Image container */}
         <div className="relative h-48 mb-4 rounded-lg overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-neutral-900/10 z-10" />
-          
+
           {/* Loading skeleton */}
           {isImageLoading && (
             <div className="absolute inset-0 bg-neutral-800/50 animate-pulse" />
           )}
-          
+
           {/* Main Image */}
           <Image
             src={images[currentImageIndex]?.url || "/product-placeholder.jpg"}
             alt={`${product.name} - Image ${currentImageIndex + 1}`}
             fill
             className={`object-cover transform transition-all duration-500 group-hover:scale-110 ${
-              isImageLoading ? 'opacity-0' : 'opacity-100'
+              isImageLoading ? "opacity-0" : "opacity-100"
             }`}
             onLoadingComplete={() => setIsImageLoading(false)}
           />

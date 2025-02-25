@@ -190,10 +190,12 @@ export default function Navbar({ className }: NavbarProps) {
           isLoading={isLoading}
           searchResults={searchResults}
         />
-        <CartModal
-          isOpen={modalState.isCartOpen}
-          onClose={() => toggleCart(false)}
-        />
+        <div>
+          <CartModal
+            isOpen={modalState.isCartOpen}
+            onClose={() => toggleCart(false)}
+          />
+        </div>
       </div>
     </>
   );

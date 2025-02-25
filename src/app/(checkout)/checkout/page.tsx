@@ -22,7 +22,7 @@ export default function page() {
             Checkout
           </h1>
         </div>
-        <main className="h-auto flex lg:flex-row flex-col max-w-5xl w-full justify-center mx-auto container">
+        <main className="h-auto flex lg:flex-row flex-col max-w-5xl w-full justify-center mx-auto container gap-2">
           <div className="w-full">
             {/* Alamat User */}
             <AddressClient />

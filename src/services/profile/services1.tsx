@@ -15,7 +15,7 @@ const ProfileServices = () => {
   const [profile, setProfile] = useState({
     avatar: "",
     username: "Loading..",
-    userId: "Loading..",
+    userId: "",
     firstName: "Loading..",
     lastName: "Loading..",
     email: "Loading..",
@@ -59,8 +59,9 @@ const ProfileServices = () => {
           is_google: data.is_google,
         }));
       }
-    } catch {
-      showToast("Failed to get user data.", "error");
+    } catch (error) {
+      console.log(error);
+      // showToast("Failed to get user data.", "error");
     }
   };
 

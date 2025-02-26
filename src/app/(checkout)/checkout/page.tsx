@@ -23,7 +23,7 @@ export default function page() {
       setSelectedAddress(
         addressData?.find((val: any) => val?.is_primary == true) ||
           addressData?.[0] ||
-          null
+          "1"
       );
     }
   }, [addressData]);

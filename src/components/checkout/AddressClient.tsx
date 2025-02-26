@@ -7,7 +7,7 @@ import Modal from "../product-management/Modal";
 import { div } from "framer-motion/client";
 
 interface Props {
-  selectedAddress: Address | null;
+  selectedAddress: Address| any | null;
   setSelectedAddress: any;
   addressData: Address[] | null;
 }
@@ -22,7 +22,7 @@ export default function AddressClient({
   return (
     <div className="w-full p-4 rounded shadow bg-gray-600 my-2">
       <h5 className="text-white font-bold">Received Address</h5>
-      {selectedAddress !== null ? (
+      {selectedAddress !== "1" ? (
         <div className="mt-2 flex gap-2 items-center">
           <div>
             <div className="flex gap-2">
@@ -87,7 +87,7 @@ export default function AddressClient({
           onClick={() => {
             router.push("/profile");
           }}
-          className="text-white border border-white rounded p-2 hover:border-blue-500 duration-200 transition-all hover:text-blue-500"
+          className="mt-2 text-white border border-white rounded p-2 hover:border-blue-500 duration-200 transition-all hover:text-blue-500"
         >
           Create New Address
         </button>

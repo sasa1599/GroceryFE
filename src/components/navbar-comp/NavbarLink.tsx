@@ -79,7 +79,7 @@ export const NavLinks = () => {
     { name: "Products", path: "/products" },
     { name: "Brands", path: "/brands" },
     { name: "Deals", path: "/deals" },
-    ...(profile?.userId !== ""
+    ...((profile?.userId !== "") && (profile?.verified)
       ? [
           { name: "Profile", path: "/profile", icon: User },
           {

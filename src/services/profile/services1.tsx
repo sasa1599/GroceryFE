@@ -25,6 +25,7 @@ const ProfileServices = () => {
     status: "Loading..",
     referral_code: "",
     is_google: false,
+    verified: false
   });
   const [refCode, setRefCode] = useState();
 
